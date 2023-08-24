@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  body {
+    min-width: 1500px; /* For the horizontal scroll */
+    font-family: Arial, sans-serif;
+    background: #14151f;
+  }
+  .gruppe-xy {
+    margin-top: -20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+  }
+  .schedule {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* Each day has equal width */
+    gap: 0px;
+    border-collapse: collapse;
+    width: 95%;
+    margin: 20px auto;
+  }
+  .day {
+    padding: 10px;
+    text-align: center; /* Center the text */
+    position: relative; /* Needed for absolute positioning */
+  }
+  .date {
+    font-size: 0.8em;
+    color:#A8A8A8;
+  }
+  #red-line {
+    position: fixed;
+    height: 2px;
+    width: 100%;
+    background-color: red;
+    bottom: 0;
+    left: 0;
+    z-index: 9999;
+    opacity: 0.7;
+    transition: left 1s, bottom 1s;
+  }
+  .class-box {
+    font-size: 0.9em;
+    background: #262738;
+    border: 3px solid #57637a;
+    color: #A8A8A8;
+    font-family: "Roboto Slab", serif;
+    padding: 10px;
+    margin-bottom: 5px;
+    text-align: center;
+    position: relative;
+    border-top-right-radius: clamp(0.2rem, 0.4rem, 0.6vw);
+    border-top-left-radius: clamp(0.8rem, 1.2rem, 1.2vw);
+    border-bottom-left-radius: clamp(0.2rem, 0.4rem, 0.6vw);
+    border-bottom-right-radius: clamp(0.8rem, 1.2rem, 1.2vw);
+    overflow: hidden;
+  }
+  .class-box h1,
+  .class-box h2,
+  .class-box h3,
+  .class-box h4 {
+    font-size: clamp(0.8rem, 0.9vw, 1rem);
+  }
+  /* Add this rule to ensure the text scales down while staying within the box */
+  .class-time {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 0.8em;
+    color:#c6c6c6;
+  }
+  .class-end-time {
+    position: absolute;
+    top: 20px;
+    right: 5px;
+    font-size: 0.8em;
+    color:#c6c6c6;
+  }
+  .dag {
+    font-size: 2em;
+    font-family: "Roboto Slab", serif;
+    padding-bottom: 20px;
+    color:#A8A8A8;
+  }
+  .lille-friminutt {
+    height: 10px;
+  }
+  .store-friminutt {
+    height: 70px;
+  }
+  .senere-start {
+    height: 210px;
+  }
+  .extra-tid {
+    height: 30px;
+  }
+  .minus-10min {
+    margin-top: -20px;
+  }
+  #Tittel {
+    margin-top: -0px;
+    font-size: 1.5em;
+  }
+  #Person {
+    margin-top: -10px;
+    font-size: 1.2em;
+    font-weight: 1000;
+  }
+  #info {
+    margin-top: -10px;
+    font-weight: 100;
+    font-size: clamp(0.4rem, 0.5rem, 0.6rem, 0.7rem, 0.8rem, 0.9vw, 1rem);
+  }
+  :root {
+  --clr-main: #14151f;
+  --clr-tekst: #a8a8a8;
+  --clr-ramme: #57637a;
+  --clr-ixDBoks: #0b0c13;
+  --clr-tabellBoks: #1a1c29;
+  --clr-tekstBoks: #262738;
+  --clr-bakgrunn: #07070b;
+  --clr-safir: #1fa6e2;
+  --clr-akvamarin: #33c9c4;
+  --clr-amazonitt: #35b06f;
+  --clr-smaragd: #839e53;
+  --clr-citrin: #e6ce2f;
+  --clr-spessartin: #e68d2f;
+  --clr-rubin: #ec4f28;
+  --clr-thulitt: #c973af;
+  --clr-kunzitt: #b18bf4;
+  --clr-ametyst: #7b77ff;
+  --clr-skolefarge1: #ef7c00;
+  --clr-skolefarge2: #ffffff;
+}
+.farge-drift {
+  color: var(--clr-safir);
+  fill: var(--clr-safir);
+}
+.farge-norsk {
+  color: var(--clr-kunzitt);
+  fill: var(--clr-kunzitt);
+}
+.farge-utvikling {
+  color: var(--clr-amazonitt);
+  fill: var(--clr-amazonitt);
+}
+.farge-bruker {
+  color: var(--clr-spessartin);
+  fill: var(--clr-spessartin);
+}
+.farge-samfunn {
+  color: var(--clr-citrin);
+  fill: var(--clr-citrin);
+}
+.farge-YFF {
+  color: var(--clr-rubin);
+  fill: var(--clr-rubin);
+}
+.farge-kropp {
+  color: var(--clr-thulitt);
+  fill: var(--clr-thulitt);
+}
+</style>
+<title>Timeplan</title> <!--Tittel-->
+</head>
+<body>
+  <div class="schedule">
+    <div class="day">
+      <div class="date">Aug 28</div> <!--Dato-->
+      <div class="dag">Mandag</div> <!--Navn på Dag-->
+      <div class="class-box" style="height: 170px;"> <!--Høyde av box-->
+        <span class="class-time">08:15</span> <!--Start Tid-->
+        <span class="class-end-time">09:45</span> <!--Slutt Tid-->
+        <div class="farge-drift">
+            <h1 id="Tittel">Driftstøtte</h1> <!--Navn på fag-->
+            <h1 id="Tittel">G18</h1> <!--Navn på Klasserom-->
+        </div> 
+        <h2 id="Person">Haidar Nuri</h2> <!--Navn på Lærer-->
+        <h3 id="info">Første Time med den legendariske Haidar Nuri i Driftstøtte!</h3> <!--Info-->
+      </div>
+
+      <div class="lille-friminutt"></div> <!--Lille friminutt-->
+
+      <div class="class-box" style="height: 170px;"> <!--Høyde av box-->
+        <span class="class-time">09:55</span> <!--Start Tid-->
+        <span class="class-end-time">11:25</span> <!--Slutt Tid-->
+        <div class="farge-drift">
+            <h1 id="Tittel">Driftstøtte</h1> <!--Navn på fag-->
+            <h1 id="Tittel">G18</h1> <!--Navn på Klasserom-->
+        </div> 
+        <h2 id="Person">Haidar Nuri</h2> <!--Navn på Lærer-->
+        <h3 id="info">Andre Time med den legendariske Haidar Nuri i Driftstøtte!</h3> <!--Info-->
+      </div>
+
+      <div class="store-friminutt"></div> <!--Store friminutt-->
+      <div class="class-box" style="height: 170px;"> <!--Høyde av box-->
+        <span class="class-time">12:10</span> <!--Start Tid-->
+        <span class="class-end-time">13:40</span> <!--Slutt Tid-->
+        <div class="farge-norsk">
+            <h1 id="Tittel">Norsk</h1> <!--Navn på fag-->
+        </div> 
+        <div class="gruppe-xy">
+            <div>
+                <h4 class="farge-norsk">IMY: G18</h4> <!--Navn på Gruppe/klasserom-->
+                <h2 id="Person">Johanne</h2> <!--Navn på Lærer-->
+            </div>
+            <div>
+                <h4 class="farge-norsk">IMX: G18</h4> <!--Navn på Gruppe/klasserom-->
+                <h2 id="Person">...</h2> <!--Navn på Lærer-->
+            </div>
+        </div>
+      </div>
+
+      <div class="lille-friminutt"></div> <!--Lille friminutt-->
+
+      <div class="class-box" style="height: 170px;"> <!--Høyde av box-->
+        <span class="class-time">13:50</span> <!--Start Tid-->
+        <span class="class-end-time">15:20</span> <!--Slutt Tid-->
+        <div class="farge-utvikling">
+            <h1 id="Tittel">Utvikling</h1> <!--Navn på fag-->
+            <h1 id="Tittel">G18</h1> <!--Navn på Klasserom-->
+        </div> 
+        <h2 id="Person">Endre Svensen</h2> <!--Navn på Lærer-->
+        <h3 id="info">Klar for en ny runde med magi og mystikk i selskap med selveste Endre "Den Uovervinnelige" Svensen i Utvikling!</h3> <!--Info-->
+      </div>
+    </div>
+    <div class="day">
+        <div class="date">Aug 29</div> <!--Dato-->
+        <div class="dag">Tirsdag</div> <!--Navn på Dag-->
+        <div class="class-box" style="height: 170px;"> <!--Høyde av box-->
+            <span class="class-time">08:15</span> <!--Start Tid-->
+            <span class="class-end-time">09:45</span> <!--Slutt Tid-->
+            <div class="farge-utvikling">
+                <h1 id="Tittel">Utvikling</h1> <!--Navn på fag-->
+                <h1 id="Tittel">G18</h1> <!--Navn på Klasserom-->
+            </div> 
+            <h2 id="Person">Endre Svensen</h2> <!--Navn på lærer-->
+            <h3 id="info">Klar for en ny runde med magi og mystikk i selskap med selveste Endre "Den Uovervinnelige" Svensen i Utvikling!</h3> <!--Info-->
+          </div>
+
+        <div class="lille-friminutt"></div> <!--Lille friminutt-->
+
+        <div class="class-box" style="height: 170px;"> <!--Høyde av box-->
+          <span class="class-time">09:55</span> <!--Start Tid-->
+          <span class="class-end-time">11:25</span> <!--Slutt Tid-->
+          <div class="farge-bruker">
+            <h1 id="Tittel">Brukerstøtte</h1> <!--Navn på fag-->
+            <h1 id="Tittel">G18</h1> <!--Navn på Klasserom-->
+        </div> 
+        <h2 id="Person">Endre Svensen</h2> <!--Navn på lærer-->
+        <h3 id="info">Brukerstøtte med Endre Svensen!</h3> <!--Info-->
+        </div>
+
+        <div class="store-friminutt"></div> <!--Store friminutt-->
+
+        <div class="class-box" style="height: 170px;"> <!--Høyde av box-->
+          <span class="class-time">12:10</span> <!--Start Tid-->
+          <span class="class-end-time">13:40</span> <!--Slutt Tid-->
+          <div class="farge-norsk">
+            <h1 id="Tittel">Norsk</h1> <!--Navn på fag-->
+        </div> 
+        <div class="gruppe-xy">
+            <div>
+                <h4 class="farge-norsk">IMY: G18</h4> <!--Navn på Gruppe/klasserom-->
+                <h2 id="Person">Johanne</h2> <!--Navn på lærer-->
+            </div>
+            <div>
+                <h4 class="farge-norsk">IMX: G18</h4> <!--Navn på Gruppe/klasserom-->
+                <h2 id="Person">...</h2> <!--Navn på lærer-->
+            </div>
+        </div>
+        </div>
+
+        <div class="lille-friminutt"></div> <!--Lille friminutt-->
+
+        <div class="class-box" style="height: 100px;"> <!--Høyde av box-->
+            <span class="class-time">13:50</span> <!--Start Tid-->
+            <span class="class-end-time">14:35</span> <!--Slutt Tid-->
+            <div class="farge-samfunn">
+                <h1 id="Tittel">Samfunnskunnskap</h1> <!--Navn på fag-->
+            </div> 
+            <div class="gruppe-xy">
+                <div>
+                    <h4 class="farge-samfunn">IMY: G18</h4> <!--Navn på Gruppe/klasserom-->
+                    <h2 id="Person">Runar</h2> <!--Navn på lærer-->
+                </div>
+                <div>
+                    <h4 class="farge-samfunn">IMX: G18</h4> <!--Navn på Gruppe/klasserom-->
+                    <h2 id="Person">...</h2> <!--Navn på lærer-->
+                </div>
+            </div>
+        </div>
+      </div>
+      <div class="day">
+        <div class="date">Aug 30</div> <!--Dato-->
+        <div class="dag">Onsdag</div> <!--Navn på Dag-->
+
+        <div class="senere-start"></div> <!-- Senere start på skolen-->
+
+
+        <div class="class-box" style="height: 170px;"> <!--Høyde av box-->
+          <span class="class-time">09:55</span> <!--Start Tid-->
+          <span class="class-end-time">11:25</span> <!--Slutt Tid-->
+          <div class="farge-YFF">
+            <h1 id="Tittel">YFF</h1> <!--Navn på fag-->
+            <h1 id="Tittel">G18</h1> <!--Navn på Klasserom-->
+        </div> 
+        <h2 id="Person">Haidar Nuri</h2> <!--Navn på Lærer-->
+        <h3 id="info">YFF med Haidar Nuri!</h3> <!--info-->
+        </div>
+
+        <div class="store-friminutt"></div> <!--Store friminutt-->
+
+        <div class="class-box" style="height: 170px;"> <!--Høyde av box-->
+          <span class="class-time">12:10</span> <!--Start Tid-->
+          <span class="class-end-time">13:40</span> <!--Slutt Tid-->
+          <div class="farge-YFF">
+            <h1 id="Tittel">YFF</h1> <!--Navn på fag-->
+            <h1 id="Tittel">G18</h1> <!--Navn på Klasserom-->
+        </div> 
+        <h2 id="Person">Haidar Nuri</h2> <!--Navn på Lærer-->
+        <h3 id="info">YFF med Haidar Nuri!</h3> <!--info-->
+        </div>
+
+        <div class="lille-friminutt"></div> <!--Lille friminutt-->
+
+        <div class="class-box" style="height: 100px;"> <!--Høyde av box-->
+            <span class="class-time">13:50</span> <!--Start Tid-->
+            <span class="class-end-time">14:35</span> <!--Slutt Tid-->
+            <div class="farge-YFF">
+                <h1 id="Tittel">YFF</h1> <!--Navn på fag-->
+                <h1 id="Tittel">G18</h1> <!--Navn på Klasserom-->
+            </div> 
+            <h2 id="Person">Haidar Nuri</h2> <!--Navn på Lærer-->
+            <h3 id="info">YFF med Haidar Nuri!</h3> <!--info-->
+        </div>
+      </div>
+      <div class="day">
+        <div class="date">Aug 31</div> <!--Dato-->
+        <div class="dag">Torsdag</div> <!--Navn på Dag-->
+        
+        <div class="senere-start"></div> <!-- Senere start på skolen-->
+
+
+        <div class="class-box" style="height: 170px;"> <!--Høyde av box-->
+          <span class="class-time">09:55</span> <!--Start Tid-->
+          <span class="class-end-time">11:25</span> <!--Slutt Tid-->
+          <div class="farge-utvikling">
+            <h1 id="Tittel">Utvikling</h1> <!--Navn på fag-->
+            <h1 id="Tittel">G18</h1> <!--Navn på Klasserom-->
+        </div> 
+        <h2 id="Person">Endre Svensen</h2> <!--Navn på Lærer-->
+        <h3 id="info">Klar for en ny runde med magi og mystikk i selskap med selveste Endre "Den Uovervinnelige" Svensen i Utvikling!</h3> <!--info-->
+        </div>
+
+        <div class="store-friminutt"></div> <!--Store friminutt-->
+        <div class="minus-10min"></div> <!--minus 10 minutter-->
+
+        <div class="class-box" style="height: 100px;"> <!--Høyde av box-->
+          <span class="class-time">12:00</span> <!--Start Tid-->
+          <span class="class-end-time">12:45</span> <!--Slutt Tid-->
+          <div class="farge-bruker">
+            <h1 id="Tittel">Brukerstøtte</h1> <!--Navn på fag-->
+            <h1 id="Tittel">G18</h1> <!--Navn på Klasserom-->
+        </div> 
+        <h2 id="Person">Endre Svensen</h2> <!--Navn på Lærer-->
+        <h3 id="info">Brukerstøtte med Endre Svensen!</h3> <!--info-->
+        </div>
+
+        <div class="lille-friminutt"></div> <!--Lille friminutt-->
+        <div class="lille-friminutt"></div> <!--Lille friminutt-->
+        <div class="lille-friminutt"></div> <!--Lille friminutt-->
+
+        <div class="class-box" style="height: 170px;"> <!--Høyde av box-->
+            <span class="class-time">12:55</span> <!--Start Tid-->
+            <span class="class-end-time">14:35</span> <!--Slutt Tid-->
+            <div class="farge-kropp">
+                <h1 id="Tittel">Kroppsøving</h1> <!--Navn på fag-->
+            </div> 
+            <div class="gruppe-xy">
+                <div>
+                    <h4 class="farge-kropp">IMY: Sal 1</h4> <!--Navn på Gruppe/klasserom-->
+                    <h2 id="Person">Laila</h2> <!--Navn på Lærer-->
+                </div>
+                <div>
+                    <h4 class="farge-kropp">IMX: Sal 2</h4> <!--Navn på Gruppe/klasserom-->
+                    <h2 id="Person">Ajdin</h2> <!--Navn på Lærer-->
+                </div>
+            </div>
+        </div>
+      </div>
+      <div class="day">
+        <div class="date">Aug 32</div> <!--Dato-->
+        <div class="dag">Fredag</div> <!--Navn på Dag-->
+        
+        <div class="class-box" style="height: 170px;"> <!--Høyde av box-->
+            <span class="class-time">08:15</span> <!--Start Tid-->
+            <span class="class-end-time">09:45</span> <!--Slutt Tid-->
+            <div class="farge-samfunn">
+                <h1 id="Tittel">Samfunnskunnskap</h1> <!--Navn på fag-->
+            </div> 
+            <div class="gruppe-xy">
+                <div>
+                    <h4 class="farge-samfunn">IMY: G18</h4> <!--Navn på Gruppe/klasserom-->
+                    <h2 id="Person">Runar</h2> <!--Navn på Lærer-->
+                </div>
+                <div>
+                    <h4 class="farge-samfunn">IMX: G18</h4> <!--Navn på Gruppe/klasserom-->
+                    <h2 id="Person">...</h2> <!--Navn på Lærer-->
+                </div>
+            </div>
+        </div>
+
+        <div class="lille-friminutt"></div> <!--Lille friminutt-->
+
+        <div class="class-box" style="height: 170px;"> <!--Høyde av box-->
+          <span class="class-time">09:55</span> <!--Start Tid-->
+          <span class="class-end-time">11:25</span> <!--Slutt Tid-->
+          <div class="farge-bruker">
+            <h1 id="Tittel">Brukerstøtte</h1> <!--Navn på fag-->
+            <h1 id="Tittel">G18</h1> <!--Navn på Klasserom-->
+        </div> 
+        <h2 id="Person">Endre Svensen</h2> <!--Navn på Lærer-->
+        <h3 id="info">Brukerstøtte med Endre Svensen!</h3> <!--info-->
+        </div>
+
+        <div class="store-friminutt"></div> <!--Store friminutt-->
+
+        <div class="class-box" style="height: 170px;"> <!--Høyde av box-->
+          <span class="class-time">12:10</span> <!--Start Tid-->
+          <span class="class-end-time">13:40</span> <!--Slutt Tid-->
+          <div class="farge-drift">
+            <h1 id="Tittel">Driftstøtte</h1> <!--Navn på fag-->
+            <h1 id="Tittel">G18</h1> <!--Navn på Klasserom-->
+        </div> 
+        <h2 id="Person">Haidar Nuri</h2> <!--Navn på Lærer-->
+        <h3 id="info">Andre Time med den legendariske Haidar Nuri i Driftstøtte!</h3> <!--info-->
+        </div>
+  </div>
+  <div id="red-line"></div>
+  <script>
+    // Get the red line element
+    const redLine = document.getElementById('red-line');
+
+    // Calculate the total duration of the movement (in minutes)
+    const startTimeMorning = new Date().setHours(8, 15); // 08:15
+    const endTimeMorning = new Date().setHours(15, 20); // 15:20
+    const startTimeEvening = new Date().setHours(0, 0);  // 00:00 (midnight)
+    const endTimeEvening = new Date().setHours(8, 15);   // 08:15 (next day)
+    const totalDurationMorning = endTimeMorning - startTimeMorning;
+    const totalDurationEvening = endTimeEvening - startTimeEvening;
+
+    // Update the red line's position based on current time
+    function updateRedLinePosition() {
+    const currentTime = new Date();
+
+    if (currentTime >= startTimeMorning && currentTime <= endTimeMorning) {
+        const elapsedTime = currentTime - startTimeMorning;
+        const percentage = (elapsedTime / totalDurationMorning) * 100;
+        redLine.style.left = percentage + '%';
+        redLine.style.bottom = '';
+        redLine.style.top = '';
+    } else {
+        const elapsedTime = currentTime - startTimeEvening;
+        const percentage = (elapsedTime / totalDurationEvening) * 100;
+        redLine.style.left = percentage + '%';
+        redLine.style.bottom = '0';
+        redLine.style.top = '';
+    }
+    }
+
+
+    // Update the red line's position initially
+    updateRedLinePosition();
+
+    // Update the red line's position every second
+    setInterval(updateRedLinePosition, 1000);
+  </script>
+  
+  
+</body>
+</html>

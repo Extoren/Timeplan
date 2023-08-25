@@ -22,6 +22,7 @@
     border-collapse: collapse;
     width: 95%;
     margin: 20px auto;
+    transform-style: preserve-3d;
   }
   .day {
     padding: 10px;
@@ -33,16 +34,18 @@
     color:#A8A8A8;
   }
   #red-line {
-    position: fixed;
+    position:relative;
     height: 2px;
     width: 100%;
     background-color: red;
-    bottom: 0;
+    top: 0; /* Change from "bottom: 0" to "top: 0" */
     left: 0;
     z-index: 9999;
     opacity: 0.7;
-    transition: left 1s, bottom 1s;
+    transition: left 1s, top 1s; /* Adjust transition property */
   }
+
+
   .class-box {
     font-size: 0.9em;
     background: #262738;
@@ -58,6 +61,12 @@
     border-bottom-left-radius: clamp(0.2rem, 0.4rem, 0.6vw);
     border-bottom-right-radius: clamp(0.8rem, 1.2rem, 1.2vw);
     overflow: hidden;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Adjust values as needed */
+    transition: transform 0.2s, box-shadow 0.2s; /* Add transition effects */
+  }
+  .class-box:hover {
+    transform: translateY(-2px); /* Move the box slightly up on hover */
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3); /* Adjust values as needed */
   }
   .class-box h1,
   .class-box h2,
@@ -101,7 +110,15 @@
   .minus-10min {
     margin-top: -20px;
   }
-  #Tittel {
+  .Tittel {
+    margin-top: -0px;
+    font-size: 1.5em;
+  }
+  .Tittel-2 {
+    margin-top: -0px;
+    font-size: 1.5em;
+  }
+  .Tittel-3 {
     margin-top: -0px;
     font-size: 1.5em;
   }
@@ -168,16 +185,19 @@
 <title>Timeplan</title> <!--Tittel-->
 </head>
 <body>
+
+    <div id="red-line"></div>
+
   <div class="schedule">
     <div class="day">
       <div class="date">Aug 28</div> <!--Dato-->
       <div class="dag">Mandag</div> <!--Navn på Dag-->
-      <div class="class-box" style="height: 170px;"> <!--Høyde av box-->
+      <div class="class-box animated-border" style="height: 170px;"> <!--Høyde av box-->
         <span class="class-time">08:15</span> <!--Start Tid-->
         <span class="class-end-time">09:45</span> <!--Slutt Tid-->
         <div class="farge-drift">
-            <h1 id="Tittel">Driftstøtte</h1> <!--Navn på fag-->
-            <h1 id="Tittel">G18</h1> <!--Navn på Klasserom-->
+            <h1 class="Tittel">Driftstøtte</h1> <!--Navn på fag-->
+            <h1 class="Tittel">G18</h1> <!--Navn på Klasserom-->
         </div> 
         <h2 id="Person">Haidar Nuri</h2> <!--Navn på Lærer-->
         <h3 id="info">Første Time med den legendariske Haidar Nuri i Driftstøtte!</h3> <!--Info-->
@@ -185,23 +205,24 @@
 
       <div class="lille-friminutt"></div> <!--Lille friminutt-->
 
-      <div class="class-box" style="height: 170px;"> <!--Høyde av box-->
+      <div class="class-box animated-border" style="height: 170px;"> <!--Høyde av box-->
         <span class="class-time">09:55</span> <!--Start Tid-->
         <span class="class-end-time">11:25</span> <!--Slutt Tid-->
         <div class="farge-drift">
-            <h1 id="Tittel">Driftstøtte</h1> <!--Navn på fag-->
-            <h1 id="Tittel">G18</h1> <!--Navn på Klasserom-->
+            <h1 class="Tittel">Driftstøtte</h1> <!--Navn på fag-->
+            <h1 class="Tittel">G18</h1> <!--Navn på Klasserom-->
         </div> 
         <h2 id="Person">Haidar Nuri</h2> <!--Navn på Lærer-->
         <h3 id="info">Andre Time med den legendariske Haidar Nuri i Driftstøtte!</h3> <!--Info-->
       </div>
 
       <div class="store-friminutt"></div> <!--Store friminutt-->
-      <div class="class-box" style="height: 170px;"> <!--Høyde av box-->
+
+      <div class="class-box animated-border" style="height: 170px;"> <!--Høyde av box-->
         <span class="class-time">12:10</span> <!--Start Tid-->
         <span class="class-end-time">13:40</span> <!--Slutt Tid-->
         <div class="farge-norsk">
-            <h1 id="Tittel">Norsk</h1> <!--Navn på fag-->
+            <h1 class="Tittel">Norsk</h1> <!--Navn på fag-->
         </div> 
         <div class="gruppe-xy">
             <div>
@@ -217,12 +238,12 @@
 
       <div class="lille-friminutt"></div> <!--Lille friminutt-->
 
-      <div class="class-box" style="height: 170px;"> <!--Høyde av box-->
-        <span class="class-time">13:50</span> <!--Start Tid-->
+      <div class="class-box animated-border" style="height: 170px;"> <!--Høyde av box-->
+        <span class="class-time animated-border">13:50</span> <!--Start Tid-->
         <span class="class-end-time">15:20</span> <!--Slutt Tid-->
         <div class="farge-utvikling">
-            <h1 id="Tittel">Utvikling</h1> <!--Navn på fag-->
-            <h1 id="Tittel">G18</h1> <!--Navn på Klasserom-->
+            <h1 class="Tittel">Utvikling</h1> <!--Navn på fag-->
+            <h1 class="Tittel">G18</h1> <!--Navn på Klasserom-->
         </div> 
         <h2 id="Person">Endre Svensen</h2> <!--Navn på Lærer-->
         <h3 id="info">Klar for en ny runde med magi og mystikk i selskap med selveste Endre "Den Uovervinnelige" Svensen i Utvikling!</h3> <!--Info-->
@@ -231,12 +252,12 @@
     <div class="day">
         <div class="date">Aug 29</div> <!--Dato-->
         <div class="dag">Tirsdag</div> <!--Navn på Dag-->
-        <div class="class-box" style="height: 170px;"> <!--Høyde av box-->
+        <div class="class-box animated-border" style="height: 170px;"> <!--Høyde av box-->
             <span class="class-time">08:15</span> <!--Start Tid-->
             <span class="class-end-time">09:45</span> <!--Slutt Tid-->
             <div class="farge-utvikling">
-                <h1 id="Tittel">Utvikling</h1> <!--Navn på fag-->
-                <h1 id="Tittel">G18</h1> <!--Navn på Klasserom-->
+                <h1 class="Tittel">Utvikling</h1> <!--Navn på fag-->
+                <h1 class="Tittel">G18</h1> <!--Navn på Klasserom-->
             </div> 
             <h2 id="Person">Endre Svensen</h2> <!--Navn på lærer-->
             <h3 id="info">Klar for en ny runde med magi og mystikk i selskap med selveste Endre "Den Uovervinnelige" Svensen i Utvikling!</h3> <!--Info-->
@@ -244,12 +265,12 @@
 
         <div class="lille-friminutt"></div> <!--Lille friminutt-->
 
-        <div class="class-box" style="height: 170px;"> <!--Høyde av box-->
+        <div class="class-box animated-border" style="height: 170px;"> <!--Høyde av box-->
           <span class="class-time">09:55</span> <!--Start Tid-->
           <span class="class-end-time">11:25</span> <!--Slutt Tid-->
           <div class="farge-bruker">
-            <h1 id="Tittel">Brukerstøtte</h1> <!--Navn på fag-->
-            <h1 id="Tittel">G18</h1> <!--Navn på Klasserom-->
+            <h1 class="Tittel">Brukerstøtte</h1> <!--Navn på fag-->
+            <h1 class="Tittel">G18</h1> <!--Navn på Klasserom-->
         </div> 
         <h2 id="Person">Endre Svensen</h2> <!--Navn på lærer-->
         <h3 id="info">Brukerstøtte med Endre Svensen!</h3> <!--Info-->
@@ -257,11 +278,11 @@
 
         <div class="store-friminutt"></div> <!--Store friminutt-->
 
-        <div class="class-box" style="height: 170px;"> <!--Høyde av box-->
+        <div class="class-box animated-border" style="height: 170px;"> <!--Høyde av box-->
           <span class="class-time">12:10</span> <!--Start Tid-->
           <span class="class-end-time">13:40</span> <!--Slutt Tid-->
           <div class="farge-norsk">
-            <h1 id="Tittel">Norsk</h1> <!--Navn på fag-->
+            <h1 class="Tittel">Norsk</h1> <!--Navn på fag-->
         </div> 
         <div class="gruppe-xy">
             <div>
@@ -277,11 +298,11 @@
 
         <div class="lille-friminutt"></div> <!--Lille friminutt-->
 
-        <div class="class-box" style="height: 100px;"> <!--Høyde av box-->
+        <div class="class-box animated-border" style="height: 100px;"> <!--Høyde av box-->
             <span class="class-time">13:50</span> <!--Start Tid-->
             <span class="class-end-time">14:35</span> <!--Slutt Tid-->
             <div class="farge-samfunn">
-                <h1 id="Tittel">Samfunnskunnskap</h1> <!--Navn på fag-->
+                <h1 class="Tittel">Samfunnskunnskap</h1> <!--Navn på fag-->
             </div> 
             <div class="gruppe-xy">
                 <div>
@@ -302,12 +323,12 @@
         <div class="senere-start"></div> <!-- Senere start på skolen-->
 
 
-        <div class="class-box" style="height: 170px;"> <!--Høyde av box-->
+        <div class="class-box animated-border" style="height: 170px;"> <!--Høyde av box-->
           <span class="class-time">09:55</span> <!--Start Tid-->
           <span class="class-end-time">11:25</span> <!--Slutt Tid-->
           <div class="farge-YFF">
-            <h1 id="Tittel">YFF</h1> <!--Navn på fag-->
-            <h1 id="Tittel">G18</h1> <!--Navn på Klasserom-->
+            <h1 class="Tittel">YFF</h1> <!--Navn på fag-->
+            <h1 class="Tittel">G18</h1> <!--Navn på Klasserom-->
         </div> 
         <h2 id="Person">Haidar Nuri</h2> <!--Navn på Lærer-->
         <h3 id="info">YFF med Haidar Nuri!</h3> <!--info-->
@@ -315,12 +336,12 @@
 
         <div class="store-friminutt"></div> <!--Store friminutt-->
 
-        <div class="class-box" style="height: 170px;"> <!--Høyde av box-->
+        <div class="class-box animated-border" style="height: 170px;"> <!--Høyde av box-->
           <span class="class-time">12:10</span> <!--Start Tid-->
           <span class="class-end-time">13:40</span> <!--Slutt Tid-->
           <div class="farge-YFF">
-            <h1 id="Tittel">YFF</h1> <!--Navn på fag-->
-            <h1 id="Tittel">G18</h1> <!--Navn på Klasserom-->
+            <h1 class="Tittel">YFF</h1> <!--Navn på fag-->
+            <h1 class="Tittel">G18</h1> <!--Navn på Klasserom-->
         </div> 
         <h2 id="Person">Haidar Nuri</h2> <!--Navn på Lærer-->
         <h3 id="info">YFF med Haidar Nuri!</h3> <!--info-->
@@ -328,12 +349,12 @@
 
         <div class="lille-friminutt"></div> <!--Lille friminutt-->
 
-        <div class="class-box" style="height: 100px;"> <!--Høyde av box-->
+        <div class="class-box animated-border" style="height: 100px;"> <!--Høyde av box-->
             <span class="class-time">13:50</span> <!--Start Tid-->
             <span class="class-end-time">14:35</span> <!--Slutt Tid-->
             <div class="farge-YFF">
-                <h1 id="Tittel">YFF</h1> <!--Navn på fag-->
-                <h1 id="Tittel">G18</h1> <!--Navn på Klasserom-->
+                <h1 class="Tittel">YFF</h1> <!--Navn på fag-->
+                <h1 class="Tittel">G18</h1> <!--Navn på Klasserom-->
             </div> 
             <h2 id="Person">Haidar Nuri</h2> <!--Navn på Lærer-->
             <h3 id="info">YFF med Haidar Nuri!</h3> <!--info-->
@@ -346,12 +367,12 @@
         <div class="senere-start"></div> <!-- Senere start på skolen-->
 
 
-        <div class="class-box" style="height: 170px;"> <!--Høyde av box-->
+        <div class="class-box animated-border" style="height: 170px;"> <!--Høyde av box-->
           <span class="class-time">09:55</span> <!--Start Tid-->
           <span class="class-end-time">11:25</span> <!--Slutt Tid-->
           <div class="farge-utvikling">
-            <h1 id="Tittel">Utvikling</h1> <!--Navn på fag-->
-            <h1 id="Tittel">G18</h1> <!--Navn på Klasserom-->
+            <h1 class="Tittel">Utvikling</h1> <!--Navn på fag-->
+            <h1 class="Tittel">G18</h1> <!--Navn på Klasserom-->
         </div> 
         <h2 id="Person">Endre Svensen</h2> <!--Navn på Lærer-->
         <h3 id="info">Klar for en ny runde med magi og mystikk i selskap med selveste Endre "Den Uovervinnelige" Svensen i Utvikling!</h3> <!--info-->
@@ -360,12 +381,12 @@
         <div class="store-friminutt"></div> <!--Store friminutt-->
         <div class="minus-10min"></div> <!--minus 10 minutter-->
 
-        <div class="class-box" style="height: 100px;"> <!--Høyde av box-->
+        <div class="class-box animated-border" style="height: 100px;"> <!--Høyde av box-->
           <span class="class-time">12:00</span> <!--Start Tid-->
           <span class="class-end-time">12:45</span> <!--Slutt Tid-->
           <div class="farge-bruker">
-            <h1 id="Tittel">Brukerstøtte</h1> <!--Navn på fag-->
-            <h1 id="Tittel">G18</h1> <!--Navn på Klasserom-->
+            <h1 class="Tittel">Brukerstøtte</h1> <!--Navn på fag-->
+            <h1 class="Tittel">G18</h1> <!--Navn på Klasserom-->
         </div> 
         <h2 id="Person">Endre Svensen</h2> <!--Navn på Lærer-->
         <h3 id="info">Brukerstøtte med Endre Svensen!</h3> <!--info-->
@@ -375,11 +396,11 @@
         <div class="lille-friminutt"></div> <!--Lille friminutt-->
         <div class="lille-friminutt"></div> <!--Lille friminutt-->
 
-        <div class="class-box" style="height: 170px;"> <!--Høyde av box-->
+        <div class="class-box animated-border" style="height: 170px;"> <!--Høyde av box-->
             <span class="class-time">12:55</span> <!--Start Tid-->
             <span class="class-end-time">14:35</span> <!--Slutt Tid-->
             <div class="farge-kropp">
-                <h1 id="Tittel">Kroppsøving</h1> <!--Navn på fag-->
+                <h1 class="Tittel">Kroppsøving</h1> <!--Navn på fag-->
             </div> 
             <div class="gruppe-xy">
                 <div>
@@ -397,11 +418,11 @@
         <div class="date">Aug 32</div> <!--Dato-->
         <div class="dag">Fredag</div> <!--Navn på Dag-->
         
-        <div class="class-box" style="height: 170px;"> <!--Høyde av box-->
+        <div class="class-box animated-border" style="height: 170px;"> <!--Høyde av box-->
             <span class="class-time">08:15</span> <!--Start Tid-->
             <span class="class-end-time">09:45</span> <!--Slutt Tid-->
             <div class="farge-samfunn">
-                <h1 id="Tittel">Samfunnskunnskap</h1> <!--Navn på fag-->
+                <h1 class="Tittel">Samfunnskunnskap</h1> <!--Navn på fag-->
             </div> 
             <div class="gruppe-xy">
                 <div>
@@ -417,12 +438,12 @@
 
         <div class="lille-friminutt"></div> <!--Lille friminutt-->
 
-        <div class="class-box" style="height: 170px;"> <!--Høyde av box-->
+        <div class="class-box animated-border" style="height: 170px;"> <!--Høyde av box-->
           <span class="class-time">09:55</span> <!--Start Tid-->
           <span class="class-end-time">11:25</span> <!--Slutt Tid-->
           <div class="farge-bruker">
-            <h1 id="Tittel">Brukerstøtte</h1> <!--Navn på fag-->
-            <h1 id="Tittel">G18</h1> <!--Navn på Klasserom-->
+            <h1 class="Tittel">Brukerstøtte</h1> <!--Navn på fag-->
+            <h1 class="Tittel">G18</h1> <!--Navn på Klasserom-->
         </div> 
         <h2 id="Person">Endre Svensen</h2> <!--Navn på Lærer-->
         <h3 id="info">Brukerstøtte med Endre Svensen!</h3> <!--info-->
@@ -430,55 +451,88 @@
 
         <div class="store-friminutt"></div> <!--Store friminutt-->
 
-        <div class="class-box" style="height: 170px;"> <!--Høyde av box-->
+        <div class="class-box animated-border" style="height: 170px;"> <!--Høyde av box-->
           <span class="class-time">12:10</span> <!--Start Tid-->
           <span class="class-end-time">13:40</span> <!--Slutt Tid-->
           <div class="farge-drift">
-            <h1 id="Tittel">Driftstøtte</h1> <!--Navn på fag-->
-            <h1 id="Tittel">G18</h1> <!--Navn på Klasserom-->
+            <h1 class="Tittel">Driftstøtte</h1> <!--Navn på fag-->
+            <h1 class="Tittel">G18</h1> <!--Navn på Klasserom-->
         </div> 
         <h2 id="Person">Haidar Nuri</h2> <!--Navn på Lærer-->
         <h3 id="info">Andre Time med den legendariske Haidar Nuri i Driftstøtte!</h3> <!--info-->
         </div>
   </div>
-  <div id="red-line"></div>
+
+  <!--Border color change on hover-->
   <script>
+    // Get all elements with the class "class-box"
+    const animatedBoxes = document.querySelectorAll('.class-box');
+  
+    // Create a variable to hold the interval ID
+    let animationInterval;
+  
+    // Function to apply the color change animation
+    const applyAnimation = (box) => {
+      const titleElement = box.querySelector('.Tittel');
+      const colorValue = getComputedStyle(titleElement).color;
+  
+      box.style.borderColor = colorValue;
+      box.style.transition = 'border-color 1s';
+  
+      // Clear the previous interval if it exists
+      clearInterval(animationInterval);
+  
+      // Set a timeout to change the border color back to gray
+      setTimeout(() => {
+        box.style.borderColor = 'gray';
+      }, 1000);
+    };
+  
+    animatedBoxes.forEach((box) => {
+      // Apply the initial gray border color
+      box.style.borderColor = 'gray';
+  
+      // Add a mouseenter event listener
+      box.addEventListener('mouseenter', () => {
+        applyAnimation(box);
+  
+        // Set an interval to repeat the animation after each cycle
+        animationInterval = setInterval(() => {
+          applyAnimation(box);
+        }, animatedBoxes.length * 1000);
+      });
+  
+      // Add a mouseleave event listener to clear the interval
+      box.addEventListener('mouseleave', () => {
+        clearInterval(animationInterval);
+        box.style.borderColor = 'gray';
+      });
+    });
+  </script>
+
+<script>
+    // Calculate the time range in minutes (from 08:15 to 15:20)
+    const startTime = 8 * 60 + 15; // 8:15 AM
+    const endTime = 15 * 60 + 20; // 3:20 PM
+  
     // Get the red line element
     const redLine = document.getElementById('red-line');
-
-    // Calculate the total duration of the movement (in minutes)
-    const startTimeMorning = new Date().setHours(8, 15); // 08:15
-    const endTimeMorning = new Date().setHours(15, 20); // 15:20
-    const startTimeEvening = new Date().setHours(0, 0);  // 00:00 (midnight)
-    const endTimeEvening = new Date().setHours(8, 15);   // 08:15 (next day)
-    const totalDurationMorning = endTimeMorning - startTimeMorning;
-    const totalDurationEvening = endTimeEvening - startTimeEvening;
-
-    // Update the red line's position based on current time
-    function updateRedLinePosition() {
-    const currentTime = new Date();
-
-    if (currentTime >= startTimeMorning && currentTime <= endTimeMorning) {
-        const elapsedTime = currentTime - startTimeMorning;
-        const percentage = (elapsedTime / totalDurationMorning) * 100;
-        redLine.style.left = percentage + '%';
-        redLine.style.bottom = '';
-        redLine.style.top = '';
-    } else {
-        const elapsedTime = currentTime - startTimeEvening;
-        const percentage = (elapsedTime / totalDurationEvening) * 100;
-        redLine.style.left = percentage + '%';
-        redLine.style.bottom = '0';
-        redLine.style.top = '';
-    }
-    }
-
-
-    // Update the red line's position initially
+  
+    // Function to update the position of the red line
+    const updateRedLinePosition = () => {
+      const now = new Date();
+      const currentTime = now.getHours() * 60 + now.getMinutes();
+      
+      const percentage = ((currentTime - startTime) / (endTime - startTime)) * 100;
+      const adjustedPercentage = percentage + 5; // Adjust this value for starting a bit more down
+      redLine.style.top = `${adjustedPercentage}%`;
+    };
+  
+    // Update the position initially
     updateRedLinePosition();
-
-    // Update the red line's position every second
-    setInterval(updateRedLinePosition, 1000);
+  
+    // Update the position every minute
+    setInterval(updateRedLinePosition, 60000); // Update every minute
   </script>
   
   
